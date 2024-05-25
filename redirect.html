@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect</title>
+</head>
+<body>
+    <script>
+        // URLパラメータから認証コードを取得
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+
+        // 取得した認証コードをSwiftアプリに渡す
+        if (code) {
+            window.location.href = `myapp://redirect?code=${code}&state=${state}`;
+        } else {
+            document.body.innerHTML = '<p>認証コードが見つかりませんでした。</p>';
+        }
+    </script>
+</body>
+</html>
