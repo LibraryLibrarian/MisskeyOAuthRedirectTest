@@ -1,23 +1,27 @@
 <!DOCTYPE html>
-<html lang="jp">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect...</title>
+    <title>Redirecting...</title>
 </head>
 <body>
-    <script>
-        // URLパラメータから認証コードを取得
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        const state = urlParams.get('state');
-
-        // 取得した認証コードをSwiftアプリに渡す
-        if (code) {
-            window.location.href = `myapp://redirect?code=${code}&state=${state}`;
-        } else {
-            document.body.innerHTML = '<p>認証コードが見つかりませんでした。</p>';
+    <script type="text/javascript">
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
         }
+
+        const params = getQueryParams();
+        const authCode = params["code"];
+        const state = params["state"];
+        const redirectUri = `misskey-authtest://redirect?code=${authCode}&state=${state}`;
+        window.location.href = redirectUri;
     </script>
+    <p>Redirecting to the app...</p>
 </body>
 </html>
