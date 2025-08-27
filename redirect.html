@@ -1,27 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Redirecting...</title>
-</head>
 <body>
-    <script type="text/javascript">
-        function getQueryParams() {
-            const params = {};
-            const queryString = window.location.search.substring(1);
-            const regex = /([^&=]+)=([^&]*)/g;
-            let m;
-            while (m = regex.exec(queryString)) {
-                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-            }
-            return params;
-        }
-
-        const params = getQueryParams();
-        const authCode = params["code"];
-        const state = params["state"];
-        const redirectUri = `misskey-authtest://redirect?code=${authCode}&state=${state}`;
-        window.location.href = redirectUri;
-    </script>
-    <p>Redirecting to the app...</p>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const state = urlParams.get('state');
+    const appUrl = `streamapp://oauth/callback?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state || '')}`;
+    window.location.href = appUrl;
+  </script>
 </body>
 </html>
+
+
